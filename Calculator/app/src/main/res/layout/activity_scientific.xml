@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#79CDCD"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ScientificActivity">
+
+    <EditText
+        android:id="@+id/display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5sp"
+        android:layout_marginRight="5sp"
+        android:layout_marginTop="50sp"
+        android:gravity="right"
+        android:textColor="#ffffff"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/del"
+        style="@style/Button"
+        android:layout_above="@+id/i"
+        android:layout_alignStart="@+id/i"
+        android:text="Del" />
+
+    <Button
+        android:id="@+id/sin"
+        style="@style/Button"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:text="Sin" />
+
+    <Button
+        android:id="@+id/cos"
+        style="@style/Button"
+        android:layout_alignTop="@+id/sin"
+        android:layout_toEndOf="@+id/sin"
+        android:text="Cos" />
+
+    <Button
+        android:id="@+id/tan"
+        style="@style/Button"
+        android:layout_alignTop="@+id/cos"
+        android:layout_toEndOf="@+id/cos"
+        android:text="Tan" />
+
+    <Button
+        android:id="@+id/i"
+        style="@style/Button"
+        android:layout_alignTop="@+id/tan"
+        android:layout_toEndOf="@+id/tan"
+        android:text="i" />
+
+    <Button
+        android:id="@+id/ln"
+        style="@style/Button"
+        android:layout_below="@+id/cos"
+        android:layout_toStartOf="@+id/cos"
+        android:text="ln" />
+
+    <Button
+        android:id="@+id/log"
+        style="@style/Button"
+        android:layout_below="@+id/cos"
+        android:layout_toEndOf="@+id/ln"
+        android:text="log" />
+
+    <Button
+        android:id="@+id/pi"
+        style="@style/Button"
+        android:layout_alignStart="@+id/tan"
+        android:layout_below="@+id/tan"
+        android:text="π" />
+
+    <Button
+        android:id="@+id/e"
+        style="@style/Button"
+        android:layout_alignStart="@+id/i"
+        android:layout_below="@+id/i"
+        android:text="℮" />
+
+    <Button
+        android:id="@+id/percent"
+        style="@style/Button"
+        android:layout_below="@+id/ln"
+        android:layout_toStartOf="@+id/log"
+        android:text="%" />
+
+    <Button
+        android:id="@+id/factorial"
+        style="@style/Button"
+        android:layout_alignTop="@+id/percent"
+        android:layout_toEndOf="@+id/percent"
+        android:text="!" />
+
+    <Button
+        android:id="@+id/power"
+        style="@style/Button"
+        android:layout_below="@+id/pi"
+        android:layout_toEndOf="@+id/pi"
+        android:text="^" />
+
+    <Button
+        android:id="@+id/sqrt"
+        style="@style/Button"
+        android:layout_alignTop="@+id/factorial"
+        android:layout_toEndOf="@+id/factorial"
+        android:text="√" />
+
+    <Button
+        android:id="@+id/leftBracket"
+        style="@style/Button"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/rightBracket"
+        android:text="(" />
+
+    <Button
+        android:id="@+id/rightBracket"
+        style="@style/Button"
+        android:layout_below="@+id/percent"
+        android:layout_toEndOf="@+id/percent"
+        android:text=")" />
+
+    <Button
+        android:id="@+id/emptyButton1"
+        style="@style/Button"
+        android:layout_alignTop="@+id/rightBracket"
+        android:layout_toEndOf="@+id/rightBracket" />
+
+    <Button
+        android:id="@+id/emptyButton2"
+        style="@style/Button"
+        android:layout_alignTop="@+id/emptyButton1"
+        android:layout_toEndOf="@+id/emptyButton1" />
+
+</RelativeLayout>
