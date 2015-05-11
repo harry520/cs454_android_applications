@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,32 +32,32 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
     ProgressBar progress;
-    ArrayList<FlickrPhoto> mPhotos = new ArrayList<>();
+    Button refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         progress = (ProgressBar) findViewById(R.id.progressBar);
+        refresh = (Button) findViewById(R.id.refesh);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               startLoadTask(MainActivity.this);
+            }
+        });
+        startLoadTask(this);
 
+    }
+
+    public void startLoadTask(Context c){
         if (isOnline()) {
             LoadPhotos task = new LoadPhotos();
             task.execute();
         } else {
-            progress.setVisibility(View.GONE);
-            Toast.makeText(this, "Not online", Toast.LENGTH_LONG).show();
+            Toast.makeText(c, "Not online", Toast.LENGTH_LONG).show();
         }
     }
-
-    public ArrayList<FlickrPhoto> getmPhotos() {
-        return mPhotos;
-    }
-
-    public void setmPhotos(ArrayList<FlickrPhoto> mPhotos) {
-        this.mPhotos = mPhotos;
-    }
-
 
     public boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)
@@ -69,7 +70,7 @@ public class MainActivity extends ActionBarActivity {
     public void showList() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.container, new FlickerFragment());
+        ft.replace(R.id.container, new FlickerFragment());
         ft.commit();
     }
 
@@ -157,18 +158,19 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-
         @Override
         protected void onPostExecute(Long result) {
             if (result != 1l) {
-                setmPhotos(photos);
+                DataBaseHelper dbHelper = new DataBaseHelper(getApplicationContext());
+                dbHelper.clearTable();
+                dbHelper.addRows(photos);
+                dbHelper.close();
                 showList();
 
             } else {
                 Toast.makeText(getApplicationContext(), "AsyncTask didn't complete", Toast.LENGTH_LONG).show();
             }
             progress.setVisibility(View.GONE);
-
         }
     }
 

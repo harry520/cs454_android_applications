@@ -1,6 +1,7 @@
 package com.detroitteatime.myflickr;
 
 import android.app.ListFragment;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,22 +21,23 @@ import java.util.ArrayList;
  * Created by mark on 4/29/15.
  */
 public class FlickerFragment extends Fragment implements AdapterView.OnItemClickListener{
-    String[] mTitles;
-    ArrayList<FlickrPhoto> photos;
+    Cursor cursor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_layout, container, false);
         MainActivity activity = (MainActivity)this.getActivity();
-        photos = activity.getmPhotos();
-        mTitles = new String[photos.size()];
 
-        for(int i = 0; i< mTitles.length; i++){
-            mTitles[i] = photos.get(i).title;
-        }
+        DataBaseHelper dbHelper = new DataBaseHelper(getActivity());
+        cursor = dbHelper.getAllRows();
+
+        //will change this later when we use a CursorLoader
+        getActivity().startManagingCursor(cursor);
+
+        FlickrPhotoAdapter adapter = new FlickrPhotoAdapter(getActivity(), cursor);
 
         ListView lv =(ListView)view.findViewById(R.id.listView);
-        lv.setAdapter(new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, mTitles));
+        lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
 
         return view;
@@ -45,14 +47,30 @@ public class FlickerFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         //Toast.makeText(getActivity(), mTitles[i], Toast.LENGTH_LONG).show();
-        String photoURL = photos.get(i).getPhotoURL(true);
+        cursor.moveToFirst();
+        cursor.move(i);
+        String id = cursor.getString(cursor.getColumnIndexOrThrow(Contract.PhotoEntry._ID));
+        String farm = cursor.getString(cursor.getColumnIndexOrThrow(Contract.PhotoEntry.FARM));
+        String server = cursor.getString(cursor.getColumnIndexOrThrow(Contract.PhotoEntry.SERVER));
+        String secret = cursor.getString(cursor.getColumnIndexOrThrow(Contract.PhotoEntry.SECRET));
+
+
+        // public static String getURL(String farm, String server, String id, String secret, boolean big)
+        String url = FlickrPhoto.getURL(farm, server, id, secret, true);
         PhotoFragment pf = new PhotoFragment();
         Bundle args = new Bundle();
-        args.putString("URL", photoURL);
+        args.putString("URL", url);
         pf.setArguments(args);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.container, pf);
         ft.addToBackStack("Image");
         ft.commit();
     }
+
+    /**
+     * Called when the Fragment is no longer started.  This is generally
+     * tied to {@link Activity#onStop() Activity.onStop} of the containing
+     * Activity's lifecycle.
+     */
+
 }
