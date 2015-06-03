@@ -26,7 +26,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             Contract.PhotoEntry.PUBLIC,
             Contract.PhotoEntry.SERVER,};
 
-
     private static final String DATABASE_CREATE =
             "CREATE TABLE " +
                     Contract.PhotoEntry.TABLE_NAME + " (" +
@@ -112,6 +111,5 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(SQL_DELETE_ENTRIES);
     }
-
 
 }

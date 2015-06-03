@@ -28,4 +28,5 @@ public class FlickrPhotoAdapter extends CursorAdapter {
         String titleText = cursor.getString(cursor.getColumnIndexOrThrow(Contract.PhotoEntry.TITLE));
         title.setText(titleText);
     }
+
 }
