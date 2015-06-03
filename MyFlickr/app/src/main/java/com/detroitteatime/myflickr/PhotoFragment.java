@@ -88,5 +88,4 @@ public class PhotoFragment extends Fragment {
             super.onPostExecute(aLong);
         }
     }
-
 }

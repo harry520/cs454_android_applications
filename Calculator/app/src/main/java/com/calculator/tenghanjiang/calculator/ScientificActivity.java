@@ -120,7 +120,6 @@ public class ScientificActivity extends ActionBarActivity {
                                 display.getText().toString()));
                         display.setText(String.valueOf(sqrt));
                     }
-                    break;
                 case R.id.power:
                     if (ScientificActivity.display.getText().toString().equals("")) {
                     } else {

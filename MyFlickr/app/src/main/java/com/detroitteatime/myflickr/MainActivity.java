@@ -1,12 +1,7 @@
 package com.detroitteatime.myflickr;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -14,17 +9,17 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,58 +29,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+
 public class MainActivity extends ActionBarActivity {
-    private ProgressBar progress;
-    private double latitude;
-    private double longitude;
-    LocationManager locationManager;
-    LocationListener locationListener;
+    ProgressBar progress;
+    Button refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progress = (ProgressBar) findViewById(R.id.progressBar);
-        getLocation();
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        if(locationManager != null && locationListener != null){
-            locationManager.removeUpdates(locationListener);
-        }
-    }
-
-    public void getLocation(){
-
-        locationListener = new LocationListener() {
+        refresh = (Button) findViewById(R.id.refesh);
+        refresh.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLocationChanged(Location location) {
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                Toast.makeText(MainActivity.this, "latitude: " + latitude + "longitude: " + longitude, Toast.LENGTH_LONG).show();
-                startLoadTask(MainActivity.this);
+            public void onClick(View view) {
+               startLoadTask(MainActivity.this);
             }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {}
-
-            @Override
-            public void onProviderEnabled(String s) {}
-
-            @Override
-            public void onProviderDisabled(String s) {}
-        };
-
-        locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locationListener);
+        });
+        startLoadTask(this);
 
     }
 
@@ -105,12 +66,14 @@ public class MainActivity extends ActionBarActivity {
         return (networkInfo != null && networkInfo.isConnected());
     }
 
+
     public void showList() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.container, new FlickerFragment());
         ft.commit();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,7 +85,6 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-
             return true;
         }
 
@@ -147,8 +109,8 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected Long doInBackground(String... strings) {
             String dataString = "https://api.flickr.com/services/rest/" +
-                    "?method=flickr.photos.search&api_key="+Constants.API_KEY+"&min_upload_date=04%2F25%2F2015&lat="+latitude+"&lon=" +
-                    longitude+"&radius="+Constants.RADIUS+"&radius_units=km&format=json&nojsoncallback=1";
+                    "?method=flickr.photos.search&api_key="+Constants.API_KEY+"&min_upload_date=04%2F25%2F2015&lat="+Constants.LATITUDE+"&lon=" +
+                    Constants.LONGITUDE+"&radius="+Constants.RADIUS+"&radius_units=km&format=json&nojsoncallback=1";
 
 //            String dataString = "https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api+key=" +
 //                   Constants.API_KEY + "&per_page=" + Constants.NUM_PHOTOS + "&format=json&nojsoncallback=1";
@@ -195,6 +157,7 @@ public class MainActivity extends ActionBarActivity {
 
         }
 
+
         @Override
         protected void onPostExecute(Long result) {
             if (result != 1l) {
@@ -202,9 +165,6 @@ public class MainActivity extends ActionBarActivity {
                 dbHelper.clearTable();
                 dbHelper.addRows(photos);
                 dbHelper.close();
-                if(locationManager != null && locationListener != null){
-                    locationManager.removeUpdates(locationListener);
-                }
                 showList();
 
             } else {
@@ -213,5 +173,6 @@ public class MainActivity extends ActionBarActivity {
             progress.setVisibility(View.GONE);
         }
     }
+
 
 }

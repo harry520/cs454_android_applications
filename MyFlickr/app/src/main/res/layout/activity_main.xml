@@ -2,9 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    tools:context=".MainActivity"
     android:weightSum="1.0"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
+
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -12,12 +14,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
     <FrameLayout
-        android:id="@+id/container"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="1" />
+        android:layout_weight="0.85"
+        android:id="@+id/container"
+        />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.15"
+        android:text="Refresh"
+        android:textSize="20sp"
+        android:id="@+id/refesh"
+        android:textColor="#fff"
+        android:background="@drawable/large_button"
+        />
+
 
 </LinearLayout>
