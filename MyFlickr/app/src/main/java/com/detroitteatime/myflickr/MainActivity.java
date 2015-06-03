@@ -1,6 +1,5 @@
 package com.detroitteatime.myflickr;
 
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -28,7 +26,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
 
 public class MainActivity extends ActionBarActivity {
     ProgressBar progress;
@@ -43,14 +40,14 @@ public class MainActivity extends ActionBarActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               startLoadTask(MainActivity.this);
+                startLoadTask(MainActivity.this);
             }
         });
         startLoadTask(this);
 
     }
 
-    public void startLoadTask(Context c){
+    public void startLoadTask(Context c) {
         if (isOnline()) {
             LoadPhotos task = new LoadPhotos();
             task.execute();
@@ -109,8 +106,8 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected Long doInBackground(String... strings) {
             String dataString = "https://api.flickr.com/services/rest/" +
-                    "?method=flickr.photos.search&api_key="+Constants.API_KEY+"&min_upload_date=04%2F25%2F2015&lat="+Constants.LATITUDE+"&lon=" +
-                    Constants.LONGITUDE+"&radius="+Constants.RADIUS+"&radius_units=km&format=json&nojsoncallback=1";
+                    "?method=flickr.photos.search&api_key=" + Constants.API_KEY + "&min_upload_date=04%2F25%2F2015&lat=" + Constants.LATITUDE + "&lon=" +
+                    Constants.LONGITUDE + "&radius=" + Constants.RADIUS + "&radius_units=km&format=json&nojsoncallback=1";
 
 //            String dataString = "https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api+key=" +
 //                   Constants.API_KEY + "&per_page=" + Constants.NUM_PHOTOS + "&format=json&nojsoncallback=1";
@@ -173,6 +170,4 @@ public class MainActivity extends ActionBarActivity {
             progress.setVisibility(View.GONE);
         }
     }
-
-
 }

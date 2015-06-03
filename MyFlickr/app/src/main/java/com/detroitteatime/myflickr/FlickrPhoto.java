@@ -134,6 +134,4 @@ public class FlickrPhoto {
         Log.i(Constants.TAG, "Photo url: " + photoURI);
         return photoURI;
     }
-
-
 }

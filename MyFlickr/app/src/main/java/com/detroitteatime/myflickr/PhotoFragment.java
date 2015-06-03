@@ -1,13 +1,11 @@
 package com.detroitteatime.myflickr;
 
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +15,9 @@ import android.widget.ProgressBar;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created by mark on 5/1/15.
@@ -38,7 +34,7 @@ public class PhotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.photo_fragment, container, false);
         mImageView = (ImageView) view.findViewById(R.id.imageView);
-        progress = (ProgressBar)view.findViewById(R.id.progressBar2);
+        progress = (ProgressBar) view.findViewById(R.id.progressBar2);
 
         Bundle bundle = getArguments();
         photoURL = bundle.getString("URL", "");
@@ -62,21 +58,21 @@ public class PhotoFragment extends Fragment {
         @Override
         protected Long doInBackground(String... strings) {
 
-            try{
+            try {
                 URL imageUrl = new URL(photoURL);
-                connection = (HttpURLConnection)imageUrl.openConnection();
+                connection = (HttpURLConnection) imageUrl.openConnection();
                 connection.connect();
                 is = connection.getInputStream();
                 mBitmap = BitmapFactory.decodeStream(is);
-                return(0L);
+                return (0L);
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                return(1L);
+                return (1L);
             } catch (IOException e) {
                 e.printStackTrace();
-                return(1L);
-            }finally{
+                return (1L);
+            } finally {
                 connection.disconnect();
             }
         }

@@ -13,7 +13,7 @@ import android.widget.TextView;
  */
 public class FlickrPhotoAdapter extends CursorAdapter {
 
-    public FlickrPhotoAdapter(Context c, Cursor cursor){
+    public FlickrPhotoAdapter(Context c, Cursor cursor) {
         super(c, cursor, 0);
     }
 

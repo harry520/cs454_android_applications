@@ -112,6 +112,4 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(SQL_DELETE_ENTRIES);
     }
-
-
 }
